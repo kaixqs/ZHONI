@@ -507,6 +507,50 @@
             color: #ff4d6d;
         }
 
+        /* Secret Tiny Button (Bottom Left) */
+        .secret-trigger {
+            position: fixed;
+            bottom: 6px;
+            left: 8px;
+            font-size: 11px;
+            color: rgba(255, 143, 163, 0.12);
+            cursor: pointer;
+            z-index: 999;
+            user-select: none;
+            transition: color 0.3s ease;
+        }
+
+        .secret-trigger:hover {
+            color: rgba(255, 77, 109, 0.6);
+        }
+
+        /* Secret Letter Modal Card */
+        .secret-card-content {
+            background: rgba(26, 0, 0, 0.95);
+            border: 1px solid rgba(255, 77, 109, 0.4);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 40px rgba(255, 77, 109, 0.4);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .secret-card-content h3 {
+            color: #ff8fa3;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        .secret-card-content p {
+            color: #ffb3c1;
+            font-style: italic;
+            line-height: 1.8;
+            font-size: 1.15em;
+        }
+
         /* Message Section */
         .message-section {
             text-align: center;
@@ -649,6 +693,9 @@
     <div class="orb orb-2"></div>
     <div class="hearts-bg" id="heartsBg"></div>
 
+    <!-- Super Tiny Hidden Secret Button in Bottom Left -->
+    <div class="secret-trigger" onclick="openSecretLetter()">♡</div>
+
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -694,12 +741,25 @@
         <!-- Video Section -->
         <div class="video-section reveal">
             <h2>Watch This</h2>
-            <div class="video-wrapper">
-                <video id="videoPlayer" src="zhoni.mp4" preload="metadata"></video>
+            
+            <!-- First Video -->
+            <div class="video-wrapper" style="margin-bottom: 30px;">
+                <video id="videoPlayer1" src="zhoni.mp4" preload="metadata"></video>
                 <div class="video-controls">
-                    <button class="video-play-btn" id="videoPlayBtn" onclick="toggleVideo()">▶</button>
-                    <div class="video-progress" id="videoProgress" onclick="seekVideo(event)">
-                        <div class="video-progress-fill" id="videoProgressFill"></div>
+                    <button class="video-play-btn" id="videoPlayBtn1" onclick="toggleVideo1()">▶</button>
+                    <div class="video-progress" id="videoProgress1" onclick="seekVideo1(event)">
+                        <div class="video-progress-fill" id="videoProgressFill1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Second Video -->
+            <div class="video-wrapper">
+                <video id="videoPlayer2" src="RIZZ.mp4" preload="metadata"></video>
+                <div class="video-controls">
+                    <button class="video-play-btn" id="videoPlayBtn2" onclick="toggleVideo2()">▶</button>
+                    <div class="video-progress" id="videoProgress2" onclick="seekVideo2(event)">
+                        <div class="video-progress-fill" id="videoProgressFill2"></div>
                     </div>
                 </div>
             </div>
@@ -741,9 +801,7 @@
         <div class="message-section reveal">
             <div class="message-card">
                 <span class="emoji"></span>
-                <p>You're very pretty and nice zhoni
-                   
-                </p>
+                <p>You're very pretty and nice zhoni</p>
             </div>
         </div>
 
@@ -757,6 +815,17 @@
     <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
         <span class="lightbox-close">&times;</span>
         <img class="lightbox-img" id="lightboxImg" src="" alt="Enlarged preview">
+    </div>
+
+    <!-- Secret Letter Modal -->
+    <div class="lightbox" id="secretModal" onclick="closeSecretLetter(event)">
+        <span class="lightbox-close">&times;</span>
+        <div class="secret-card-content">
+            <h3>Secret AHAHAHA</h3>
+            <p>
+                If you managed to find this little hidden spot, you must be clicking everywhere I just wanted to leave a little extra note for you, zhoni. You're genuinely so stunningly pretty, and you have the nicest heart. Thank you for being you
+            </p>
+        </div>
     </div>
 
     <script>
@@ -852,41 +921,79 @@
             return mins + ':' + (secs < 10 ? '0' : '') + secs;
         }
 
-        // Video player
-        const video = document.getElementById('videoPlayer');
-        const videoPlayBtn = document.getElementById('videoPlayBtn');
-        const videoProgressFill = document.getElementById('videoProgressFill');
-        let isVideoPlaying = false;
+        // Video Player 1
+        const video1 = document.getElementById('videoPlayer1');
+        const videoPlayBtn1 = document.getElementById('videoPlayBtn1');
+        const videoProgressFill1 = document.getElementById('videoProgressFill1');
+        let isVideo1Playing = false;
 
-        function toggleVideo() {
-            if (isVideoPlaying) {
-                video.pause();
-                videoPlayBtn.textContent = '▶';
+        function toggleVideo1() {
+            if (isVideo1Playing) {
+                video1.pause();
+                videoPlayBtn1.textContent = '▶';
             } else {
-                video.play().catch(e => console.log('Video play failed:', e));
-                videoPlayBtn.textContent = '⏸';
+                video1.play().catch(e => console.log('Video 1 play failed:', e));
+                videoPlayBtn1.textContent = '⏸';
             }
-            isVideoPlaying = !isVideoPlaying;
+            isVideo1Playing = !isVideo1Playing;
         }
 
-        video.addEventListener('timeupdate', () => {
-            if (video.duration) {
-                const progress = (video.currentTime / video.duration) * 100;
-                videoProgressFill.style.width = progress + '%';
+        video1.addEventListener('timeupdate', () => {
+            if (video1.duration) {
+                const progress = (video1.currentTime / video1.duration) * 100;
+                videoProgressFill1.style.width = progress + '%';
             }
         });
 
-        video.addEventListener('ended', () => {
-            isVideoPlaying = false;
-            videoPlayBtn.textContent = '▶';
+        video1.addEventListener('ended', () => {
+            isVideo1Playing = false;
+            videoPlayBtn1.textContent = '▶';
         });
 
-        function seekVideo(e) {
-            const bar = document.getElementById('videoProgress');
+        function seekVideo1(e) {
+            const bar = document.getElementById('videoProgress1');
             const rect = bar.getBoundingClientRect();
             const pos = (e.clientX - rect.left) / rect.width;
-            if (video.duration) {
-                video.currentTime = pos * video.duration;
+            if (video1.duration) {
+                video1.currentTime = pos * video1.duration;
+            }
+        }
+
+        // Video Player 2
+        const video2 = document.getElementById('videoPlayer2');
+        const videoPlayBtn2 = document.getElementById('videoPlayBtn2');
+        const videoProgressFill2 = document.getElementById('videoProgressFill2');
+        let isVideo2Playing = false;
+
+        function toggleVideo2() {
+            if (isVideo2Playing) {
+                video2.pause();
+                videoPlayBtn2.textContent = '▶';
+            } else {
+                video2.play().catch(e => console.log('Video 2 play failed:', e));
+                videoPlayBtn2.textContent = '⏸';
+            }
+            isVideo2Playing = !isVideo2Playing;
+        }
+
+        video2.addEventListener('timeupdate', () => {
+            if (video2.duration) {
+                const progress = (video2.currentTime / video2.duration) * 100;
+                videoProgressFill2.style.width = progress + '%';
+            }
+        });
+
+        video2.addEventListener('ended', () => {
+            isVideo2Playing = false;
+            videoPlayBtn2.textContent = '▶';
+        });
+
+        function seekVideo2(e) {
+            const bar = document.getElementById('videoProgress2');
+            const rect = bar.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            if (video2.duration) {
+                video2.currentTime = pos * video2.duration;
             }
         }
 
@@ -902,6 +1009,19 @@
             if (e.target.id === 'lightbox' || e.target.classList.contains('lightbox-close')) {
                 const lightbox = document.getElementById('lightbox');
                 lightbox.classList.remove('active');
+            }
+        }
+
+        // Secret Letter Functions
+        function openSecretLetter() {
+            const modal = document.getElementById('secretModal');
+            modal.classList.add('active');
+        }
+
+        function closeSecretLetter(e) {
+            if (e.target.id === 'secretModal' || e.target.classList.contains('lightbox-close')) {
+                const modal = document.getElementById('secretModal');
+                modal.classList.remove('active');
             }
         }
 
